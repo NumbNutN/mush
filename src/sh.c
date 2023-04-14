@@ -10,10 +10,15 @@ int main(void)
 
 void loadAElf(struct _Task* task)
 {
+    char* argv[3];
+    for(int i=0;i<3;i++)
+        argv[i] = task->args.argv[i];
+
     if(fork() == 0)
     {
         //execl("/bin/ls","ls","-l",NULL);
-        if(execv(task->elfName,task->args.argv) == -1)
-            printf("执行出错");
+        execl("./testShell","./testShell","hello","world",NULL);
+        // if(execv(task->elfName,task->args.argv) == -1)
+        //     printf("执行出错");
     }
 }
