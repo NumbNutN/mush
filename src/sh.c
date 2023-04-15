@@ -1,5 +1,6 @@
 #include "sh.tab.h"
 #include "sh.h"
+#include <error.h>
 
 #include <unistd.h>
 int main(void) 
@@ -17,8 +18,8 @@ void loadAElf(struct _Task* task)
     if(fork() == 0)
     {
         //execl("/bin/ls","ls","-l",NULL);
-        execl("./testShell","./testShell","hello","world",NULL);
-        // if(execv(task->elfName,task->args.argv) == -1)
-        //     printf("执行出错");
+        //execl("./testShell","./testShell","hello","world",NULL);
+        if(execv(task->elfName,task->args.argv) == -1)
+            printf("执行出错");
     }
 }

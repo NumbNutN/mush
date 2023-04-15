@@ -20,25 +20,30 @@ void RedirectOuputFile(struct _Task* task,char* ouput)
 void appendArgv(struct _Args* args,char* new_arg)
 {
     ++args->argc;
-    realloc(args->argv,args->argc*sizeof(char*));
+    args->argv = realloc(args->argv,args->argc*sizeof(char*));
     args->argv[args->argc-1] = new_arg;
+}
+
+void fillAbsolutePath(char* elfFile)
+{
+    
 }
 struct _Task* CreateTask(char* elfFile,struct _Args* args)
 {
     struct _Task* task = (struct _Task*)malloc(sizeof(struct _Task));
     task->elfName = elfFile;
-    task->args = *args;
     if(args == NULL)
     {
         //只包含文件名一个参数
         task->args = *CreateArgs();
     }
+    else
+        task->args = *args;
     //添加文件名
     task->args.argv[0] = task->elfName;
     //参数列表末添加NULL
-    realloc(args->argv,(args->argc+1)*sizeof(char*));
-    args->argv[args->argc] = NULL;
-    task->args = *args;
+    task->args.argv = realloc(task->args.argv,(task->args.argc+1)*sizeof(char*));
+    task->args.argv[task->args.argc] = NULL;
     return task;
 }
 

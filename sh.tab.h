@@ -58,7 +58,9 @@ extern int yydebug;
     INPUT_REDIRECTION = 259,       /* INPUT_REDIRECTION  */
     OUTPUT_REDIRECTION = 260,      /* OUTPUT_REDIRECTION  */
     APPEND_OUTPUT_REDIRECTION = 261, /* APPEND_OUTPUT_REDIRECTION  */
-    NAME = 262                     /* NAME  */
+    CURRENT_DIRECTORY = 262,       /* CURRENT_DIRECTORY  */
+    PARENT_DIRECTORY = 263,        /* PARENT_DIRECTORY  */
+    NAME = 264                     /* NAME  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -67,7 +69,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 12 "sh.y"
+#line 14 "sh.y"
 
 	int			iValue;
 	float		fValue;
@@ -76,7 +78,7 @@ union YYSTYPE
 	struct _Args*		pargs;
 	struct _Task*		ptask;
 
-#line 80 "/mnt/d/Coding/OSClass/mush/sh.tab.h"
+#line 82 "/mnt/d/Coding/OSClass/mush/sh.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

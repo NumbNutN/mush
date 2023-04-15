@@ -6,6 +6,8 @@
 int yylex(void);
 void yyerror(char *);
 
+extern char* WorkPath;
+
 
 %}
 
@@ -23,6 +25,9 @@ void yyerror(char *);
 %token OUTPUT_REDIRECTION
 %token APPEND_OUTPUT_REDIRECTION
 
+%token CURRENT_DIRECTORY
+%token PARENT_DIRECTORY
+
 %token <sValue> NAME
 %type <sValue> file
 %type <sValue>	elf
@@ -30,6 +35,8 @@ void yyerror(char *);
 %type <ptask> Task BashTask
 %type <pargs> Args
 
+
+%type <sValue>	path subDirectory
 
 
 %type Command
@@ -59,8 +66,8 @@ Task
 	;
 
 Args
-	:	NAME				{$$ = CreateArgs($1);}
-	|	Args NAME			{appendArgv($1,$2);$$ = $1;}
+	:	NAME				{$$ = CreateArgs();appendArgv($$,$1);}
+	|	Args NAME			{$$ = $1;appendArgv($$,$2);}
 	;
 
 elf
@@ -69,6 +76,20 @@ elf
 
 file
 	:	NAME			{$$ = $1;printf("规约为file");}
+	;
+
+
+path
+	:	CURRENT_DIRECTORY		{}			//./
+	|	PARENT_DIRECTORY		{}			//../	
+	|	path subDirectory		{}			//.../next/
+	|	path CURRENT_DIRECTORY	{}			//..././
+	|	path PARENT_DIRECTORY	{}			//.../../
+	;
+
+
+subDirectory
+	:	NAME '/'		{}
 	;
 
 

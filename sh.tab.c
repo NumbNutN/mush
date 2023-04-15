@@ -76,9 +76,11 @@
 int yylex(void);
 void yyerror(char *);
 
+extern char* WorkPath;
 
 
-#line 82 "/mnt/d/Coding/OSClass/mush/sh.tab.c"
+
+#line 84 "/mnt/d/Coding/OSClass/mush/sh.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -113,16 +115,19 @@ enum yysymbol_kind_t
   YYSYMBOL_INPUT_REDIRECTION = 4,          /* INPUT_REDIRECTION  */
   YYSYMBOL_OUTPUT_REDIRECTION = 5,         /* OUTPUT_REDIRECTION  */
   YYSYMBOL_APPEND_OUTPUT_REDIRECTION = 6,  /* APPEND_OUTPUT_REDIRECTION  */
-  YYSYMBOL_NAME = 7,                       /* NAME  */
-  YYSYMBOL_8_n_ = 8,                       /* '\n'  */
-  YYSYMBOL_YYACCEPT = 9,                   /* $accept  */
-  YYSYMBOL_BashCommand = 10,               /* BashCommand  */
-  YYSYMBOL_Command = 11,                   /* Command  */
-  YYSYMBOL_BashTask = 12,                  /* BashTask  */
-  YYSYMBOL_Task = 13,                      /* Task  */
-  YYSYMBOL_Args = 14,                      /* Args  */
-  YYSYMBOL_elf = 15,                       /* elf  */
-  YYSYMBOL_file = 16                       /* file  */
+  YYSYMBOL_CURRENT_DIRECTORY = 7,          /* CURRENT_DIRECTORY  */
+  YYSYMBOL_PARENT_DIRECTORY = 8,           /* PARENT_DIRECTORY  */
+  YYSYMBOL_NAME = 9,                       /* NAME  */
+  YYSYMBOL_10_n_ = 10,                     /* '\n'  */
+  YYSYMBOL_11_ = 11,                       /* '/'  */
+  YYSYMBOL_YYACCEPT = 12,                  /* $accept  */
+  YYSYMBOL_BashCommand = 13,               /* BashCommand  */
+  YYSYMBOL_Command = 14,                   /* Command  */
+  YYSYMBOL_BashTask = 15,                  /* BashTask  */
+  YYSYMBOL_Task = 16,                      /* Task  */
+  YYSYMBOL_Args = 17,                      /* Args  */
+  YYSYMBOL_elf = 18,                       /* elf  */
+  YYSYMBOL_file = 19                       /* file  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -450,10 +455,10 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  8
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   15
+#define YYLAST   13
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  9
+#define YYNTOKENS  12
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  8
 /* YYNRULES -- Number of rules.  */
@@ -462,7 +467,7 @@ union yyalloc
 #define YYNSTATES  20
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   262
+#define YYMAXUTOK   264
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -477,10 +482,10 @@ union yyalloc
 static const yytype_int8 yytranslate[] =
 {
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       8,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+      10,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,    11,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -502,15 +507,15 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7
+       5,     6,     7,     8,     9
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    41,    41,    42,    46,    50,    51,    55,    56,    57,
-      58,    62,    63,    67,    71
+       0,    48,    48,    49,    53,    57,    58,    62,    63,    64,
+      65,    69,    70,    74,    78
 };
 #endif
 
@@ -528,8 +533,9 @@ static const char *const yytname[] =
 {
   "\"end of file\"", "error", "\"invalid token\"", "PIPE",
   "INPUT_REDIRECTION", "OUTPUT_REDIRECTION", "APPEND_OUTPUT_REDIRECTION",
-  "NAME", "'\\n'", "$accept", "BashCommand", "Command", "BashTask", "Task",
-  "Args", "elf", "file", YY_NULLPTR
+  "CURRENT_DIRECTORY", "PARENT_DIRECTORY", "NAME", "'\\n'", "'/'",
+  "$accept", "BashCommand", "Command", "BashTask", "Task", "Args", "elf",
+  "file", YY_NULLPTR
 };
 
 static const char *
@@ -539,7 +545,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-6)
+#define YYPACT_NINF (-8)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -553,8 +559,8 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -5,    -6,     0,    -6,    -2,    -1,     1,    -6,    -6,    -6,
-      -5,    -6,     2,     3,    -6,     4,    -1,    -6,    -6,    -6
+      -7,    -8,     0,    -8,    -2,    -1,    -4,    -8,    -8,    -8,
+      -7,    -8,    -3,     1,    -8,     2,    -1,    -8,    -8,    -8
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -569,7 +575,7 @@ static const yytype_int8 yydefact[] =
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -6,    -6,    10,    -6,     5,    -6,    -6,    -6
+      -8,    -8,     5,    -8,     3,    -8,    -8,    -8
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
@@ -583,29 +589,29 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       8,    10,     1,    12,    13,     0,    11,     1,    14,    17,
-      18,    19,     9,     0,     0,    16
+       8,    10,     1,    12,    13,    14,    17,     9,    11,     1,
+      18,    19,     0,    16
 };
 
 static const yytype_int8 yycheck[] =
 {
-       0,     3,     7,     4,     5,    -1,     8,     7,     7,     7,
-       7,     7,     2,    -1,    -1,    10
+       0,     3,     9,     4,     5,     9,     9,     2,    10,     9,
+       9,     9,    -1,    10
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     7,    10,    11,    12,    13,    15,    16,     0,    11,
-       3,     8,     4,     5,     7,    14,    13,     7,     7,     7
+       0,     9,    13,    14,    15,    16,    18,    19,     0,    14,
+       3,    10,     4,     5,     9,    17,    16,     9,     9,     9
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,     9,    10,    10,    11,    12,    12,    13,    13,    13,
-      13,    14,    14,    15,    16
+       0,    12,    13,    13,    14,    15,    15,    16,    16,    16,
+      16,    17,    17,    18,    19
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
@@ -1076,85 +1082,85 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* BashCommand: Command  */
-#line 41 "sh.y"
-                                        {}
-#line 1082 "/mnt/d/Coding/OSClass/mush/sh.tab.c"
-    break;
-
-  case 3: /* BashCommand: BashCommand Command  */
-#line 42 "sh.y"
+#line 48 "sh.y"
                                         {}
 #line 1088 "/mnt/d/Coding/OSClass/mush/sh.tab.c"
     break;
 
-  case 4: /* Command: BashTask '\n'  */
-#line 46 "sh.y"
-                                   {printf("规约为命令\n");loadAElf((yyvsp[-1].ptask));}
+  case 3: /* BashCommand: BashCommand Command  */
+#line 49 "sh.y"
+                                        {}
 #line 1094 "/mnt/d/Coding/OSClass/mush/sh.tab.c"
     break;
 
-  case 5: /* BashTask: Task  */
-#line 50 "sh.y"
-                                                                {printf("规约为批任务");(yyval.ptask) = (yyvsp[0].ptask);}
+  case 4: /* Command: BashTask '\n'  */
+#line 53 "sh.y"
+                                   {printf("规约为命令\n");loadAElf((yyvsp[-1].ptask));}
 #line 1100 "/mnt/d/Coding/OSClass/mush/sh.tab.c"
     break;
 
-  case 6: /* BashTask: BashTask PIPE Task  */
-#line 51 "sh.y"
-                                                {(yyval.ptask) = (yyvsp[-2].ptask);}
+  case 5: /* BashTask: Task  */
+#line 57 "sh.y"
+                                                                {printf("规约为批任务");(yyval.ptask) = (yyvsp[0].ptask);}
 #line 1106 "/mnt/d/Coding/OSClass/mush/sh.tab.c"
     break;
 
-  case 7: /* Task: Task INPUT_REDIRECTION NAME  */
-#line 55 "sh.y"
-                                                        {RedirectInputFile((yyvsp[-2].ptask),(yyvsp[0].sValue));(yyval.ptask) = (yyvsp[-2].ptask);}
+  case 6: /* BashTask: BashTask PIPE Task  */
+#line 58 "sh.y"
+                                                {(yyval.ptask) = (yyvsp[-2].ptask);}
 #line 1112 "/mnt/d/Coding/OSClass/mush/sh.tab.c"
     break;
 
-  case 8: /* Task: Task OUTPUT_REDIRECTION NAME  */
-#line 56 "sh.y"
-                                                {RedirectOuputFile((yyvsp[-2].ptask),(yyvsp[0].sValue));(yyval.ptask) = (yyvsp[-2].ptask);}
+  case 7: /* Task: Task INPUT_REDIRECTION NAME  */
+#line 62 "sh.y"
+                                                        {RedirectInputFile((yyvsp[-2].ptask),(yyvsp[0].sValue));(yyval.ptask) = (yyvsp[-2].ptask);}
 #line 1118 "/mnt/d/Coding/OSClass/mush/sh.tab.c"
     break;
 
-  case 9: /* Task: elf  */
-#line 57 "sh.y"
-                                                                                {(yyval.ptask) = CreateTask((yyval.ptask),NULL);}
+  case 8: /* Task: Task OUTPUT_REDIRECTION NAME  */
+#line 63 "sh.y"
+                                                {RedirectOuputFile((yyvsp[-2].ptask),(yyvsp[0].sValue));(yyval.ptask) = (yyvsp[-2].ptask);}
 #line 1124 "/mnt/d/Coding/OSClass/mush/sh.tab.c"
     break;
 
-  case 10: /* Task: elf Args  */
-#line 58 "sh.y"
-                                                                        {printf("规约为任务");(yyval.ptask) = CreateTask((yyval.ptask),(yyvsp[0].pargs));}
+  case 9: /* Task: elf  */
+#line 64 "sh.y"
+                                                                                {(yyval.ptask) = CreateTask((yyval.ptask),NULL);}
 #line 1130 "/mnt/d/Coding/OSClass/mush/sh.tab.c"
     break;
 
-  case 11: /* Args: NAME  */
-#line 62 "sh.y"
-                                                {(yyval.pargs) = CreateArgs((yyvsp[0].sValue));}
+  case 10: /* Task: elf Args  */
+#line 65 "sh.y"
+                                                                        {printf("规约为任务");(yyval.ptask) = CreateTask((yyval.ptask),(yyvsp[0].pargs));}
 #line 1136 "/mnt/d/Coding/OSClass/mush/sh.tab.c"
     break;
 
-  case 12: /* Args: Args NAME  */
-#line 63 "sh.y"
-                                                {appendArgv((yyvsp[-1].pargs),(yyvsp[0].sValue));(yyval.pargs) = (yyvsp[-1].pargs);}
+  case 11: /* Args: NAME  */
+#line 69 "sh.y"
+                                                {(yyval.pargs) = CreateArgs();appendArgv((yyval.pargs),(yyvsp[0].sValue));}
 #line 1142 "/mnt/d/Coding/OSClass/mush/sh.tab.c"
     break;
 
-  case 13: /* elf: file  */
-#line 67 "sh.y"
-                                        {(yyval.sValue) = (yyvsp[0].sValue);printf("规约为elf");}
+  case 12: /* Args: Args NAME  */
+#line 70 "sh.y"
+                                                {(yyval.pargs) = (yyvsp[-1].pargs);appendArgv((yyval.pargs),(yyvsp[0].sValue));}
 #line 1148 "/mnt/d/Coding/OSClass/mush/sh.tab.c"
     break;
 
-  case 14: /* file: NAME  */
-#line 71 "sh.y"
-                                        {(yyval.sValue) = (yyvsp[0].sValue);printf("规约为file");}
+  case 13: /* elf: file  */
+#line 74 "sh.y"
+                                        {(yyval.sValue) = (yyvsp[0].sValue);printf("规约为elf");}
 #line 1154 "/mnt/d/Coding/OSClass/mush/sh.tab.c"
     break;
 
+  case 14: /* file: NAME  */
+#line 78 "sh.y"
+                                        {(yyval.sValue) = (yyvsp[0].sValue);printf("规约为file");}
+#line 1160 "/mnt/d/Coding/OSClass/mush/sh.tab.c"
+    break;
 
-#line 1158 "/mnt/d/Coding/OSClass/mush/sh.tab.c"
+
+#line 1164 "/mnt/d/Coding/OSClass/mush/sh.tab.c"
 
       default: break;
     }
@@ -1347,7 +1353,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 75 "sh.y"
+#line 97 "sh.y"
 
 void yyerror(char *s)
 {
