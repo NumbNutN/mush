@@ -29,8 +29,8 @@ extern char* WorkPath;
 %token PARENT_DIRECTORY
 
 %token <sValue> NAME
-%type <sValue> file
-%type <sValue>	elf
+%type <strArray> file
+%type <strArray> elf
 
 %type <ptask> Task BashTask
 %type <pargs> Args
@@ -39,8 +39,7 @@ extern char* WorkPath;
 %type <sValue>	subDirectory
 %type <strArray> path 
 
-%type Command
-%type BashCommand
+%type <char*> Command  BashCommand
 
 %%
 
@@ -54,15 +53,15 @@ Command
 		;
 
 BashTask
-		: Task						{printf("规约为批任务");$$ = $1;}
+		: Task						{printf("规约为批任务\n");$$ = $1;}
 		| BashTask PIPE Task		{$$ = $1;}
 		;
 
 Task
 	:	Task INPUT_REDIRECTION NAME		{RedirectInputFile($1,$3);$$ = $1;}
 	|	Task OUTPUT_REDIRECTION NAME	{RedirectOuputFile($1,$3);$$ = $1;}
-	|	elf								{$$ = CreateTask($$,NULL);}
-	|	elf Args						{printf("规约为任务");$$ = CreateTask($$,$2);}
+	|	elf								{$$ = CreateTask($1,NULL);}
+	|	elf Args						{printf("规约为任务\n");$$ = CreateTask($1,$2);}
 	;
 
 Args
@@ -71,11 +70,11 @@ Args
 	;
 
 elf
-	:	file			{$$ = $1;printf("规约为elf");}
+	:	file			{$$ = $1;printf("规约为elf\n");}
 	;
 
 file
-	:	NAME			{$$ = $1;printf("规约为file");}
+	:	path NAME			{pathAppend($1,LEAF,$2);$$ = $1;printf("规约为file\n");}		//
 	;
 
 
@@ -86,11 +85,12 @@ path
 	|	path subDirectory		{pathAppend($1,SUB,$2);$$ = $1;}			//.../next/
 	|	path CURRENT_DIRECTORY	{pathAppend($1,CURRENT,NULL);$$ = $1;}			//..././
 	|	path PARENT_DIRECTORY	{pathAppend($1,CURRENT,NULL);$$ = $1;}			//.../../
+	|
 	;
 
 
 subDirectory
-	:	NAME '/'		{}
+	:	NAME '/'		{$$ = $1;}
 	;
 
 

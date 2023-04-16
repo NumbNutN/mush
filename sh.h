@@ -18,14 +18,15 @@ enum _Path{
     PARENT,
     CURRENT,
     ROOT,
-    SUB
+    SUB,
+    LEAF
 };
 
 
 void appendArgv(struct _Args* args,char* new_arg);
 void RedirectInputFile(struct _Task* task,char* input);
 void RedirectOuputFile(struct _Task* task,char* ouput);
-struct _Task* CreateTask(char* elfFile,struct _Args* args);
+struct _Task* CreateTask(char** elfFile,struct _Args* args);
 struct _Args* CreateArgs();
 
 void mushSuffix();

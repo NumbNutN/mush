@@ -28,10 +28,10 @@ void fillAbsolutePath(char* elfFile)
 {
     
 }
-struct _Task* CreateTask(char* elfFile,struct _Args* args)
+struct _Task* CreateTask(char** elfFile,struct _Args* args)
 {
     struct _Task* task = (struct _Task*)malloc(sizeof(struct _Task));
-    task->elfName = elfFile;
+    task->elfName = *elfFile;
     if(args == NULL)
     {
         //只包含文件名一个参数

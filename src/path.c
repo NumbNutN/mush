@@ -24,10 +24,10 @@ void pathAppendSubDirectory(char** oriPath,char* appendPath)
 
 void pathPopSubDirectory(char** oriPath)
 {
-    size_t idx = strlen(oriPath);
+    size_t idx = strlen(*oriPath);
     do{
         idx--;
-    } while(*oriPath[idx] != '/');
+    } while((*oriPath)[idx] != '/');
     
     do{
         idx++;
@@ -45,6 +45,7 @@ void pathAppend(char** oriPath,enum _Path type,char* subPath)
         case CURRENT:
         break;
         case SUB:
+        case LEAF:
             pathAppendSubDirectory(oriPath,subPath);
         break;
     }
@@ -52,6 +53,7 @@ void pathAppend(char** oriPath,enum _Path type,char* subPath)
 
 void createNewPath(char** newPath,enum _Path type)
 {
+    newPath = (char**)malloc(sizeof(char*));
     *newPath = (char*)malloc(sizeof(char)*MAX_PATH_SIZE);
     memset(*newPath,0,sizeof(char)*MAX_PATH_SIZE);
     switch(type)
@@ -72,5 +74,5 @@ void createNewPath(char** newPath,enum _Path type)
 
 void mushSuffix()
 {
-    printf("(mush)%s",WorkPath);
+    printf("(mush)%s\t",WorkPath);
 }
