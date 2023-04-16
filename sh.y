@@ -36,8 +36,8 @@ extern char* WorkPath;
 %type <pargs> Args
 
 
-%type <sValue>	path subDirectory
-
+%type <sValue>	subDirectory
+%type <strArray> path 
 
 %type Command
 %type BashCommand
@@ -80,11 +80,12 @@ file
 
 
 path
-	:	CURRENT_DIRECTORY		{}			//./
-	|	PARENT_DIRECTORY		{}			//../	
-	|	path subDirectory		{}			//.../next/
-	|	path CURRENT_DIRECTORY	{}			//..././
-	|	path PARENT_DIRECTORY	{}			//.../../
+	:	CURRENT_DIRECTORY		{createNewPath($$,CURRENT);}				//./
+	|	PARENT_DIRECTORY		{createNewPath($$,PARENT);}					//../	
+	|	'/'						{createNewPath($$,ROOT);}					///
+	|	path subDirectory		{pathAppend($1,SUB,$2);$$ = $1;}			//.../next/
+	|	path CURRENT_DIRECTORY	{pathAppend($1,CURRENT,NULL);$$ = $1;}			//..././
+	|	path PARENT_DIRECTORY	{pathAppend($1,CURRENT,NULL);$$ = $1;}			//.../../
 	;
 
 

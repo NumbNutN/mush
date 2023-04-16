@@ -1,10 +1,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "sh.h"
 #include "sh.tab.h"
 
 #define MAX_PATH_SIZE 50
-char* WorkPath;
+char* WorkPath = "/bin";
 
 // size_t _pathFindTop(char* path)
 // {
@@ -24,30 +25,52 @@ void pathAppendSubDirectory(char** oriPath,char* appendPath)
 void pathPopSubDirectory(char** oriPath)
 {
     size_t idx = strlen(oriPath);
+    do{
+        idx--;
+    } while(*oriPath[idx] != '/');
+    
+    do{
+        idx++;
+        oriPath[idx] = '\0';
+    } while(idx<MAX_PATH_SIZE);
 }
 
-void pathAppend(char** oriPath,int type)
+void pathAppend(char** oriPath,enum _Path type,char* subPath)
 {
     switch(type)
     {
-        case PARENT_DIRECTORY:
-            
+        case PARENT:
+            pathPopSubDirectory(oriPath);
+        break;
+        case CURRENT:
+        break;
+        case SUB:
+            pathAppendSubDirectory(oriPath,subPath);
         break;
     }
 }
 
-char* createNewPath(int type)
+void createNewPath(char** newPath,enum _Path type)
 {
-    char* currentPath = (char*)malloc(sizeof(char)*MAX_PATH_SIZE);
-    memset(currentPath,0,sizeof(char)*MAX_PATH_SIZE);
-    strcpy(currentPath,WorkPath);
+    *newPath = (char*)malloc(sizeof(char)*MAX_PATH_SIZE);
+    memset(*newPath,0,sizeof(char)*MAX_PATH_SIZE);
     switch(type)
     {
-        case PARENT_DIRECTORY:
-            pathPopSubDirectory(&currentPath);
+        case ROOT:
+        {
+            *newPath[0] = '/';
+        }
         break;
-        case CURRENT_DIRECTORY:
+        default:
+        {
+            strcpy(*newPath,WorkPath);
+            pathAppend(newPath,type,NULL);
+        }
         break;
     }
-    return currentPath;
+}
+
+void mushSuffix()
+{
+    printf("(mush)%s",WorkPath);
 }
