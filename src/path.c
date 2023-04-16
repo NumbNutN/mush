@@ -19,15 +19,15 @@ char* WorkPath = "/bin";
 
 void pathAppendSubDirectory(char** oriPath,char* appendPath)
 {
-    *oriPath = strcat(*oriPath,appendPath);
+    oriPath = strcat(*oriPath,appendPath);
 }
 
-void pathPopSubDirectory(char** oriPath)
+void pathPopSubDirectory(char* oriPath)
 {
-    size_t idx = strlen(*oriPath);
+    size_t idx = strlen(oriPath);
     do{
         idx--;
-    } while((*oriPath)[idx] != '/');
+    } while(oriPath[idx] != '/');
     
     do{
         idx++;
@@ -35,7 +35,13 @@ void pathPopSubDirectory(char** oriPath)
     } while(idx<MAX_PATH_SIZE);
 }
 
-void pathAppend(char** oriPath,enum _Path type,char* subPath)
+void pathAddSlah(char* path)
+{
+    size_t idx = strlen(path);
+    path[idx] = '/';
+}
+
+void pathAppend(char* oriPath,enum _Path type,char* subPath)
 {
     switch(type)
     {
@@ -46,30 +52,30 @@ void pathAppend(char** oriPath,enum _Path type,char* subPath)
         break;
         case SUB:
         case LEAF:
-            pathAppendSubDirectory(oriPath,subPath);
+            pathAppendSubDirectory(&oriPath,subPath);
         break;
     }
 }
 
-void createNewPath(char** newPath,enum _Path type)
+char* createNewPath(enum _Path type)
 {
-    newPath = (char**)malloc(sizeof(char*));
-    *newPath = (char*)malloc(sizeof(char)*MAX_PATH_SIZE);
-    memset(*newPath,0,sizeof(char)*MAX_PATH_SIZE);
+    char* newPath = (char*)malloc(sizeof(char)*MAX_PATH_SIZE);
+    memset(newPath,0,sizeof(char)*MAX_PATH_SIZE);
     switch(type)
     {
         case ROOT:
         {
-            *newPath[0] = '/';
+            newPath[0] = '/';
         }
         break;
         default:
         {
-            strcpy(*newPath,WorkPath);
+            strcpy(newPath,WorkPath);
             pathAppend(newPath,type,NULL);
         }
         break;
     }
+    return newPath;
 }
 
 void mushSuffix()

@@ -1278,13 +1278,13 @@ yyreduce:
 
   case 9:
 #line 63 "sh.y" /* yacc.c:1646  */
-    {(yyval.ptask) = CreateTask((yyvsp[0].strArray),NULL);}
+    {(yyval.ptask) = CreateTask((yyvsp[0].sValue),NULL);}
 #line 1283 "/home/mush/sh.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
 #line 64 "sh.y" /* yacc.c:1646  */
-    {printf("规约为任务\n");(yyval.ptask) = CreateTask((yyvsp[-1].strArray),(yyvsp[0].pargs));}
+    {printf("规约为任务\n");(yyval.ptask) = CreateTask((yyvsp[-1].sValue),(yyvsp[0].pargs));}
 #line 1289 "/home/mush/sh.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1302,60 +1302,66 @@ yyreduce:
 
   case 13:
 #line 73 "sh.y" /* yacc.c:1646  */
-    {(yyval.strArray) = (yyvsp[0].strArray);printf("规约为elf\n");}
+    {(yyval.sValue) = (yyvsp[0].sValue);printf("规约为elf\n");}
 #line 1307 "/home/mush/sh.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
 #line 77 "sh.y" /* yacc.c:1646  */
-    {pathAppend((yyvsp[-1].strArray),LEAF,(yyvsp[0].sValue));(yyval.strArray) = (yyvsp[-1].strArray);printf("规约为file\n");}
+    {pathAppend((yyvsp[-1].sValue),LEAF,(yyvsp[0].sValue));(yyval.sValue) = (yyvsp[-1].sValue);printf("规约为file\n");}
 #line 1313 "/home/mush/sh.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
 #line 82 "sh.y" /* yacc.c:1646  */
-    {createNewPath((yyval.strArray),CURRENT);}
+    {(yyval.sValue) = createNewPath(CURRENT);}
 #line 1319 "/home/mush/sh.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
 #line 83 "sh.y" /* yacc.c:1646  */
-    {createNewPath((yyval.strArray),PARENT);}
+    {(yyval.sValue) = createNewPath(PARENT);}
 #line 1325 "/home/mush/sh.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
 #line 84 "sh.y" /* yacc.c:1646  */
-    {createNewPath((yyval.strArray),ROOT);}
+    {(yyval.sValue) = createNewPath(ROOT);}
 #line 1331 "/home/mush/sh.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
 #line 85 "sh.y" /* yacc.c:1646  */
-    {pathAppend((yyvsp[-1].strArray),SUB,(yyvsp[0].sValue));(yyval.strArray) = (yyvsp[-1].strArray);}
+    {pathAppend((yyvsp[-1].sValue),SUB,(yyvsp[0].sValue));(yyval.sValue) = (yyvsp[-1].sValue);}
 #line 1337 "/home/mush/sh.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
 #line 86 "sh.y" /* yacc.c:1646  */
-    {pathAppend((yyvsp[-1].strArray),CURRENT,NULL);(yyval.strArray) = (yyvsp[-1].strArray);}
+    {pathAppend((yyvsp[-1].sValue),CURRENT,NULL);(yyval.sValue) = (yyvsp[-1].sValue);}
 #line 1343 "/home/mush/sh.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
 #line 87 "sh.y" /* yacc.c:1646  */
-    {pathAppend((yyvsp[-1].strArray),CURRENT,NULL);(yyval.strArray) = (yyvsp[-1].strArray);}
+    {pathAppend((yyvsp[-1].sValue),PARENT,NULL);(yyval.sValue) = (yyvsp[-1].sValue);}
 #line 1349 "/home/mush/sh.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 21:
+#line 88 "sh.y" /* yacc.c:1646  */
+    {(yyval.sValue) = createNewPath(CURRENT);}
+#line 1355 "/home/mush/sh.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
 #line 93 "sh.y" /* yacc.c:1646  */
-    {(yyval.sValue) = (yyvsp[-1].sValue);}
-#line 1355 "/home/mush/sh.tab.c" /* yacc.c:1646  */
+    {pathAddSlah((yyvsp[-1].sValue));(yyval.sValue) = (yyvsp[-1].sValue);}
+#line 1361 "/home/mush/sh.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1359 "/home/mush/sh.tab.c" /* yacc.c:1646  */
+#line 1365 "/home/mush/sh.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

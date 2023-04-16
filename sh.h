@@ -26,11 +26,17 @@ enum _Path{
 void appendArgv(struct _Args* args,char* new_arg);
 void RedirectInputFile(struct _Task* task,char* input);
 void RedirectOuputFile(struct _Task* task,char* ouput);
-struct _Task* CreateTask(char** elfFile,struct _Args* args);
+struct _Task* CreateTask(char* elfFile,struct _Args* args);
 struct _Args* CreateArgs();
 
 void mushSuffix();
 
 void loadAElf(struct _Task* task);
+
+char* createNewPath(enum _Path type);
+void pathAppend(char* oriPath,enum _Path type,char* subPath);
+void pathPopSubDirectory(char* oriPath);
+void pathAppendSubDirectory(char** oriPath,char* appendPath);
+void pathAddSlah(char* path);
 
 #endif

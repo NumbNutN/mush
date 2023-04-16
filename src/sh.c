@@ -20,8 +20,6 @@ void loadAElf(struct _Task* task)
     if(fork() == 0)
     {
         int pchildStatus;
-        //execl("/bin/ls","ls","-l",NULL);
-        //execl("./testShell","./testShell","hello","world",NULL);
         if(execv(task->elfName,task->args.argv) == -1)
         {
             printf("非法的可执行文件，您可以查看Linux返回的报错信息：\n");

@@ -29,15 +29,15 @@ extern char* WorkPath;
 %token PARENT_DIRECTORY
 
 %token <sValue> NAME
-%type <strArray> file
-%type <strArray> elf
+%type <sValue> file
+%type <sValue> elf
 
 %type <ptask> Task BashTask
 %type <pargs> Args
 
 
 %type <sValue>	subDirectory
-%type <strArray> path 
+%type <sValue> path 
 
 %type <char*> Command  BashCommand
 
@@ -79,18 +79,18 @@ file
 
 
 path
-	:	CURRENT_DIRECTORY		{createNewPath($$,CURRENT);}				//./
-	|	PARENT_DIRECTORY		{createNewPath($$,PARENT);}					//../	
-	|	'/'						{createNewPath($$,ROOT);}					///
+	:	CURRENT_DIRECTORY		{$$ = createNewPath(CURRENT);}				//./
+	|	PARENT_DIRECTORY		{$$ = createNewPath(PARENT);}					//../	
+	|	'/'						{$$ = createNewPath(ROOT);}					///
 	|	path subDirectory		{pathAppend($1,SUB,$2);$$ = $1;}			//.../next/
 	|	path CURRENT_DIRECTORY	{pathAppend($1,CURRENT,NULL);$$ = $1;}			//..././
-	|	path PARENT_DIRECTORY	{pathAppend($1,CURRENT,NULL);$$ = $1;}			//.../../
-	|
+	|	path PARENT_DIRECTORY	{pathAppend($1,PARENT,NULL);$$ = $1;}			//.../../
+	|							{$$ = createNewPath(CURRENT);}				//./
 	;
 
 
 subDirectory
-	:	NAME '/'		{$$ = $1;}
+	:	NAME '/'		{pathAddSlah($1);$$ = $1;}
 	;
 
 
