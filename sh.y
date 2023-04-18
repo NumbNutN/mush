@@ -25,6 +25,8 @@ extern char* WorkPath;
 %token OUTPUT_REDIRECTION
 %token APPEND_OUTPUT_REDIRECTION
 
+%token CD_INSTRUCTION
+
 %token CURRENT_DIRECTORY
 %token PARENT_DIRECTORY
 
@@ -44,24 +46,26 @@ extern char* WorkPath;
 %%
 
 BashCommand
-		: Command		{}
-		| BashCommand Command	{}
+		: Command		{mushSuffix();}
+		| BashCommand Command	{mushSuffix();}
 		;
 
 Command
-		: BashTask '\n'    {printf("规约为命令\n");loadAElf($1);}
+		: BashTask '\n'    {loadAElf(rootTask);}
+		| CD_INSTRUCTION path '\n'	{changeCWD($2);}
+		| CD_INSTRUCTION file '\n'	{changeCWD($2);}
 		;
 
 BashTask
-		: Task						{printf("规约为批任务\n");$$ = $1;}
-		| BashTask PIPE Task		{$$ = $1;}
+		: Task						{$$ = $1;rootTask = $1;}
+		| BashTask PIPE Task		{createPipeBetweenTasks($1,$3),$$ = $3;}
 		;
 
 Task
-	:	Task INPUT_REDIRECTION NAME		{RedirectInputFile($1,$3);$$ = $1;}
-	|	Task OUTPUT_REDIRECTION NAME	{RedirectOuputFile($1,$3);$$ = $1;}
+	:	Task INPUT_REDIRECTION file		{RedirectInputFile($1,$3);$$ = $1;}
+	|	Task OUTPUT_REDIRECTION file	{RedirectOuputFile($1,$3);$$ = $1;}
 	|	elf								{$$ = CreateTask($1,NULL);}
-	|	elf Args						{printf("规约为任务\n");$$ = CreateTask($1,$2);}
+	|	elf Args						{$$ = CreateTask($1,$2);}
 	;
 
 Args
@@ -70,11 +74,11 @@ Args
 	;
 
 elf
-	:	file			{$$ = $1;printf("规约为elf\n");}
+	:	file			{$$ = $1;}
 	;
 
 file
-	:	path NAME			{pathAppend($1,LEAF,$2);$$ = $1;printf("规约为file\n");}		//
+	:	path NAME			{pathAppend($1,LEAF,$2);$$ = $1;}		//
 	;
 
 

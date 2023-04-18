@@ -1,21 +1,13 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "sh.h"
 #include "sh.tab.h"
 
 #define MAX_PATH_SIZE 50
-char* WorkPath = "/bin";
+char* CurrentWorkDirectory = "/bin/";
 
-// size_t _pathFindTop(char* path)
-// {
-//     size_t idx = 0;
-//     do
-//     {
-//         idx++;
-//     } while (path[idx]!='\0');
-//     return idx;
-// }
 
 void pathAppendSubDirectory(char** oriPath,char* appendPath)
 {
@@ -24,7 +16,7 @@ void pathAppendSubDirectory(char** oriPath,char* appendPath)
 
 void pathPopSubDirectory(char* oriPath)
 {
-    size_t idx = strlen(oriPath);
+    size_t idx = strlen(oriPath) - 1;
     do{
         idx--;
     } while(oriPath[idx] != '/');
@@ -70,7 +62,7 @@ char* createNewPath(enum _Path type)
         break;
         default:
         {
-            strcpy(newPath,WorkPath);
+            strcpy(newPath,CurrentWorkDirectory);
             pathAppend(newPath,type,NULL);
         }
         break;
@@ -80,5 +72,20 @@ char* createNewPath(enum _Path type)
 
 void mushSuffix()
 {
-    printf("(mush)%s\t",WorkPath);
+    printf("(mush)%s\t",CurrentWorkDirectory);
+}
+
+void changeCWD(char* newCWD)
+{
+    char testCmd[20];
+    sprintf(testCmd,"test -d %s",newCWD);
+    if(system(testCmd))
+    {
+        printf("不存在的路径\n");
+        return;
+    }
+    
+    if(newCWD[strlen(newCWD) - 1] != '/')
+        newCWD[strlen(newCWD)] = '/';
+    CurrentWorkDirectory = newCWD;
 }

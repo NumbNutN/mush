@@ -1,21 +1,16 @@
 #include "sh.h"
 #include <stdlib.h>
+#include <string.h>
 
+
+struct _Task* rootTask;
 struct _Args NONE_ARGS = 
 {
     .argc = 0,
     .argv = NULL
 };
 
-void RedirectInputFile(struct _Task* task,char* input)
-{
-    task->inputFile = input;
-}
 
-void RedirectOuputFile(struct _Task* task,char* ouput)
-{
-    task->outputFile = ouput;
-}
 
 void appendArgv(struct _Args* args,char* new_arg)
 {
@@ -31,6 +26,7 @@ void fillAbsolutePath(char* elfFile)
 struct _Task* CreateTask(char* elfFile,struct _Args* args)
 {
     struct _Task* task = (struct _Task*)malloc(sizeof(struct _Task));
+    memset(task,0,sizeof(struct _Task));
     task->elfName = elfFile;
     if(args == NULL)
     {
@@ -44,6 +40,13 @@ struct _Task* CreateTask(char* elfFile,struct _Args* args)
     //参数列表末添加NULL
     task->args.argv = realloc(task->args.argv,(task->args.argc+1)*sizeof(char*));
     task->args.argv[task->args.argc] = NULL;
+
+    //批处理任务
+    task->nextTask = NULL;
+
+    //输入输出文件
+    RedirectInputFile(task,STANDARD_INPUT_FILE);
+    RedirectOuputFile(task,STANDARD_OUTPUT_FILE);
     return task;
 }
 
