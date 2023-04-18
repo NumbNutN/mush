@@ -1,6 +1,7 @@
 ## MUSH - Mini Micro Shell
 
 Mush是一个简陋的shell，其需要基于别的shell运行
+Mush用于应付一次大学操作系统课程作业
 
 ### 依赖
 
@@ -167,3 +168,5 @@ ls
 cd NEWPATH
 ```
 
+### 项目云端仓库
+https://github.com/NumbNutN/mush
