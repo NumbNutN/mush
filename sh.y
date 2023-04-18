@@ -89,7 +89,7 @@ path
 	|	path subDirectory		{pathAppend($1,SUB,$2);$$ = $1;}			//.../next/
 	|	path CURRENT_DIRECTORY	{pathAppend($1,CURRENT,NULL);$$ = $1;}			//..././
 	|	path PARENT_DIRECTORY	{pathAppend($1,PARENT,NULL);$$ = $1;}			//.../../
-	|							{$$ = createNewPath(CURRENT);}				//./
+	|							{$$ = createNewPath(DEFAULT_BINARY_DIRECTORY);}				//./
 	;
 
 

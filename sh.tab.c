@@ -1225,7 +1225,7 @@ yyreduce:
 
   case 23: /* path: %empty  */
 #line 92 "sh.y"
-                                                                {(yyval.sValue) = createNewPath(CURRENT);}
+                                                                {(yyval.sValue) = createNewPath(DEFAULT_BINARY_DIRECTORY);}
 #line 1230 "/mnt/d/Coding/OSClass/mush/sh.tab.c"
     break;
 

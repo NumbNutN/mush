@@ -25,7 +25,8 @@ enum _Path{
     CURRENT,
     ROOT,
     SUB,
-    LEAF
+    LEAF,
+    DEFAULT_BINARY_DIRECTORY
 };
 
 extern struct _Task* rootTask;

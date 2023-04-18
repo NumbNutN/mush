@@ -7,6 +7,7 @@
 
 #define MAX_PATH_SIZE 50
 char* CurrentWorkDirectory = "/bin/";
+char* DefaultBinaryDirectory = "/bin/";
 
 
 void pathAppendSubDirectory(char** oriPath,char* appendPath)
@@ -14,6 +15,10 @@ void pathAppendSubDirectory(char** oriPath,char* appendPath)
     oriPath = strcat(*oriPath,appendPath);
 }
 
+/**
+ * @brief 返回上一级目录
+ * @update:2023-4-18 修复了不生效
+*/
 void pathPopSubDirectory(char* oriPath)
 {
     size_t idx = strlen(oriPath) - 1;
@@ -60,6 +65,11 @@ char* createNewPath(enum _Path type)
             newPath[0] = '/';
         }
         break;
+        case DEFAULT_BINARY_DIRECTORY:
+        {
+            strcpy(newPath,DefaultBinaryDirectory);
+        }
+        break;
         default:
         {
             strcpy(newPath,CurrentWorkDirectory);
@@ -75,6 +85,11 @@ void mushSuffix()
     printf("(mush)%s\t",CurrentWorkDirectory);
 }
 
+/**
+ * @brief 切换当前工作路径
+ * @update:2023-4-18 现在cd对路径末尾是否有'/'不再敏感
+ * @update:2023-4-18 现在将会判断路径的合法性
+*/
 void changeCWD(char* newCWD)
 {
     char testCmd[20];

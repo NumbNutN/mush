@@ -13,8 +13,6 @@ make
 
 
 
-
-
 ### 支持的指令
 
 ##### 执行ELF文件
@@ -96,7 +94,7 @@ ExecutableFile1 [args] | ExecutableFile2 [args]
 ##### 子目录
 
 ```
-.../subDirectory/FileName
+[suffix]/subDirectory/FileName
 ```
 
 为上文路径前缀的下一级目录，mush不检查该路径是否存在
@@ -109,3 +107,34 @@ ExecutableFile1 [args] | ExecutableFile2 [args]
 /bin/.././bin/cat
 ```
 
+
+
+##### 路径缺省情况
+
+对文件路径的缺省是允许的，如调用：
+
+```
+ls
+```
+
+不论在cd指令、执行ELF文件还是读写重定向至另一个文本文件，缺省视为其处于默认的bin目录/bin
+
+这与bash的行为不太一致，如果想表示当前路径，请使用
+
+```
+./ELFFile > ./output
+```
+
+
+
+
+
+**注意：**
+
+**mush指示的当前工作路径 对用户使用相对路径运行ELF文件和指定重定向的文件管用**
+
+**却对参数传递和 ls  pwd 等指令不管用**
+
+**后者取决于您为mush程序指定的工作路径**
+
+**mush的工作路径目前仅限/bin，暂时不支持使用cd指令更改**
