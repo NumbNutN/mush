@@ -82,7 +82,7 @@ char* createNewPath(enum _Path type)
 
 void mushSuffix()
 {
-    printf("(mush)%s\t",CurrentWorkDirectory);
+    printf("(mush)%s  ",CurrentWorkDirectory);
 }
 
 /**
