@@ -5,7 +5,7 @@
 #include "sh.h"
 #include "sh.tab.h"
 
-#define MAX_PATH_SIZE 50
+#define MAX_PATH_SIZE 150
 char* CurrentWorkDirectory = "/bin/";
 char* DefaultBinaryDirectory = "/bin/";
 
@@ -92,7 +92,7 @@ void mushSuffix()
 */
 void changeCWD(char* newCWD)
 {
-    char testCmd[20];
+    char testCmd[MAX_PATH_SIZE + 8];
     sprintf(testCmd,"test -d %s",newCWD);
     if(system(testCmd))
     {

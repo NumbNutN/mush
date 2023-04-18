@@ -5,8 +5,6 @@ set(CMAKE_C_COMPILER "/usr/bin/gcc")
 
 project(mush)
 
-
-
 set(CMAKE_C_STANDARD 99)
 
 
